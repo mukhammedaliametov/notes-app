@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Note App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="popup-box">
+        <div class="content">
+          <header>
+            <p>Add a new Note</p>
+            <i class="fas fa-xmark" onclick="closeBox()"></i>
+          </header>
+          <form action="#">
+            <div class="row title">
+              <label for="title">Title</label>
+              <input type="text" id="title" required />
+            </div>
+            <div class="row description">
+              <label for="desc">Description</label>
+              <textarea name="" id="desc" required></textarea>
+            </div>
+            <button id="btn">Sumbit</button>
+          </form>
+        </div>
+      </div>
+      <li class="add-box">
+        <div class="icon"><i class="fas fa-plus"></i></div>
+        <p>Add new Note</p>
+      </li>
+    </div>
+    <script src="./js/script.js"></script>
+  </body>
+</html>
