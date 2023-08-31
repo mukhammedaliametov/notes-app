@@ -2,6 +2,7 @@
 
 const addBox = document.querySelector(".add-box");
 const popupBox = document.querySelector(".popup-box");
+const popupBoxTitle = popupBox.querySelector('header p');
 const addNoteBtn = document.querySelector("#btn");
 var noteTitle = document.getElementById("title");
 var noteDesc = document.getElementById("desc");
@@ -23,20 +24,24 @@ let months = [
 ];
 
 const notes = JSON.parse(localStorage.getItem("notes") || "[]");
+let isUpdate = false, updateId;
 
 addBox.addEventListener("click", () => {
   popupBox.classList.toggle("show");
 });
 
 const closeBox = () => {
+  isUpdate = false;
   popupBox.classList.toggle("show");
   noteDesc.value = "";
   noteTitle.value = "";
+  addNoteBtn.innerText = 'Add new Note';
+  popupBoxTitle.innerText = 'Add a new Note';
 };
 
 function showNotes(){
   document.querySelectorAll('.note').forEach(note => note.remove());
-  notes.forEach((note) => {
+  notes.forEach((note, index) => {
     let liTag = `
     <li class="note">
     <div class="details">
@@ -48,8 +53,8 @@ function showNotes(){
       <div class="settings">
         <i class="fa-solid fa-ellipsis"></i>
         <div class="menu">
-          <span><i class="fas fa-edit"></i>Edit</span>
-          <span onclick='delNote()'><i class="fas fa-trash"></i>Delete</span>
+          <span onclick="updateNote(${index}, '${note.title}', '${note.desc}')"><i class="fas fa-edit"></i>Edit</span>
+          <span onclick='delNote(${index})'><i class="fas fa-trash"></i>Delete</span>
         </div>
       </div>
     </div>
@@ -76,7 +81,13 @@ addNoteBtn.addEventListener("click", e => {
       }, ${dateObj.getUTCFullYear()}`,
     };
 
-    notes.push(noteInfo);
+    if(!isUpdate){
+      notes.push(noteInfo);
+    }else{
+      isUpdate = false;
+      notes[updateId] = noteInfo;
+    }
+
     localStorage.setItem("notes", JSON.stringify(notes));
   }
 
@@ -87,6 +98,18 @@ addNoteBtn.addEventListener("click", e => {
   noteTitle.value = "";
 });
 
-// const delNote = (noteId) => {
-//   console.log(noteId);
-// }
+const delNote = (noteId) => {
+  notes.splice(noteId, 1);
+  localStorage.setItem("notes", JSON.stringify(notes));
+  showNotes();
+}
+
+function updateNote(noteId, boxTitle, boxDesc){
+  isUpdate = true;
+  updateId = noteId;
+  addBox.click();
+  noteTitle.value = boxTitle;
+  noteDesc.value = boxDesc;
+  addNoteBtn.innerText = 'Update Note';
+  popupBoxTitle.innerText = 'Update a note';
+}
