@@ -1,2 +1,2 @@
 # notes-app
-this project is created for the tutorial
+this project is created for the tutorial!
